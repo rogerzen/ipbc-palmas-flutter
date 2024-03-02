@@ -1,3 +1,4 @@
+
 import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +20,7 @@ class _BannerWidgetState extends State<BannerWidget> with ClipboardMixin {
   final String cnpj = "38.136.701/0001-25";
 
   final controller = Modular.get<BannerController>();
+  final controller = Modular.get<BannerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class _BannerWidgetState extends State<BannerWidget> with ClipboardMixin {
           child: Column(
             children: [
               baseBanner(),
-              value ? pixBanner() : tedBanner(),
+              store.isPix ? pixBanner() : tedBanner(),
             ],
           ),
         );

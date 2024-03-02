@@ -66,14 +66,16 @@ class _OffersViewState extends State<OffersView> with ClipboardMixin {
                       ),
                       child: ValueListenableBuilder(
                         valueListenable: controller,
-                        builder: (context,value, child) {
+                        builder: (context, value, child) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               ElevatedButtonWidget(
                                 elevation: 0,
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 24, vertical: 4),
+                                  horizontal: 24,
+                                  vertical: 4,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
                                   side: BorderSide(
@@ -86,6 +88,7 @@ class _OffersViewState extends State<OffersView> with ClipboardMixin {
                                     ? AppColors.tabGreen
                                     : AppColors.white,
                                 action: () {
+                                  controller.setPix();
                                   controller.setPix();
                                 },
                                 child: buttonLabel(
@@ -111,6 +114,7 @@ class _OffersViewState extends State<OffersView> with ClipboardMixin {
                                     ? AppColors.white
                                     : AppColors.tabGreen,
                                 action: () {
+                                  controller.setTed();
                                   controller.setTed();
                                 },
                                 child: buttonLabel(
@@ -152,26 +156,7 @@ class _OffersViewState extends State<OffersView> with ClipboardMixin {
                       children: List<Widget>.generate(
                         cardsList.length,
                         (index) {
-                          BorderRadiusGeometry? borderRadius;
-                          BoxBorder? border = Border(
-                            top: index == 0
-                                ? const BorderSide(color: AppColors.grey3)
-                                : BorderSide.none,
-                            left: const BorderSide(color: AppColors.grey3),
-                            right: const BorderSide(color: AppColors.grey3),
-                            bottom: const BorderSide(color: AppColors.grey3),
-                          );
-                          if (index == 0) {
-                            borderRadius = const BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12)
-                            );
-                          } else if ((index + 1) == cardsList.length) {
-                            borderRadius = const BorderRadius.only(
-                              bottomLeft: Radius.circular(12),
-                              bottomRight: Radius.circular(12),
-                            );
-                          }
+                          calculateTheEdge(index);
                           return Container(
                             decoration: BoxDecoration(
                               border: border,
@@ -205,6 +190,28 @@ class _OffersViewState extends State<OffersView> with ClipboardMixin {
         ),
       ),
     );
+  }
+
+  calculateTheEdge(int index) {
+    border = Border(
+      top: index == 0
+          ? const BorderSide(color: AppColors.grey3)
+          : BorderSide.none,
+      left: const BorderSide(color: AppColors.grey3),
+      right: const BorderSide(color: AppColors.grey3),
+      bottom: const BorderSide(color: AppColors.grey3),
+    );
+    if (index == 0) {
+      borderRadius = const BorderRadius.only(
+        topLeft: Radius.circular(12),
+        topRight: Radius.circular(12),
+      );
+    } else if ((index + 1) == cardsList.length) {
+      borderRadius = const BorderRadius.only(
+        bottomLeft: Radius.circular(12),
+        bottomRight: Radius.circular(12),
+      );
+    }
   }
 
   buttonLabel(String label, bool isPix) => Text(
