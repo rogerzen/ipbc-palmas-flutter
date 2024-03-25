@@ -4,8 +4,8 @@ import 'package:core_module/core_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../splash/splash_module.dart';
 import '../blocs/home_bloc.dart';
-import '../home_module.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,15 +14,29 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin {
+class _HomeViewState extends State<HomeView>
+    with AutomaticKeepAliveClientMixin {
   late final HomeBloc _bloc;
-  late List<ServicesEntity> _servicesList;
+  List<ServicesEntity> _servicesList = [];
+  int activePage = 0;
+  final List<Image> imagesList = [];
 
   @override
   void initState() {
     super.initState();
+    for (int i = 0; i < _servicesList.length; i++) {
+      imagesList.add(Image.network(_servicesList[i].image));
+    }
     _bloc = Modular.get<HomeBloc>();
     _bloc.add(CheckConnectivityEvent());
+  }
+
+  @override
+  void didChangeDependencies() {
+    for (Image image in imagesList) {
+      precacheImage(image.image, context);
+    }
+    super.didChangeDependencies();
   }
 
   @override
@@ -37,7 +51,11 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
           bloc: _bloc,
           builder: (context, state) {
             if (state is LoadingState<HomeState>) {
-              return const LoadingWidget();
+              return const LoadingWidget(
+                androidRadius: 3.5,
+                iosRadius: 12,
+                color: AppColors.darkGreen,
+              );
             } else if (state is NoConnectionState<HomeState>) {
               return const NoConnectionView(index: 0);
             } else if (state is DataFetchedState<HomeState, ServicesEntity>) {
@@ -64,7 +82,8 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
                               title(text: "Cultos"),
                               subtitle(
                                 right: 17,
-                                text: "Acompanhe a liturgia e as letras das músicas cantadas nos cultos.",
+                                text:
+                                    "Acompanhe a liturgia e as letras das músicas cantadas nos cultos.",
                               ),
                             ],
                           ),
@@ -93,7 +112,7 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
                         onTap: () {
                           Navigator.pushNamed(
                             context,
-                            ServiceModule.servicesListRoute,
+                            SplashModule.eventsListRoute,
                           );
                         },
                         child: Column(
@@ -104,7 +123,8 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
                             ),
                             subtitle(
                               right: 18,
-                              text: "Proximos cultos, conferências, acompanhe todos os eventos da IPBC Palmas!",
+                              text:
+                                  "Proximos cultos, conferências, acompanhe todos os eventos da IPBC Palmas!",
                             ),
                           ],
                         ),
@@ -113,6 +133,8 @@ class _HomeViewState extends State<HomeView> with AutomaticKeepAliveClientMixin 
                         margin: const EdgeInsets.only(top: 12, bottom: 20),
                         height: 268,
                         child: SlideCardsWidget(
+                          width: 319,
+                          scrollDirection: Axis.horizontal,
                           route: ServiceModule.servicesCollectionRoute,
                           services: _servicesList,
                         ),

@@ -1,5 +1,6 @@
 import 'package:core_module/core_module.dart' hide LoadingState;
 import 'package:flutter/material.dart';
+
 import '../../home/home_module.dart';
 import '../blocs/database_bloc.dart';
 
@@ -36,7 +37,11 @@ class _SplashViewState extends State<SplashView> {
         bloc: bloc,
         builder: (context, state) {
           if (state is LoadingState || state is FetchingDataState) {
-            return const LoadingWidget();
+            return const LoadingWidget(
+              androidRadius: 4,
+              iosRadius: 12,
+              color: AppColors.darkGreen,
+            );
           } else {
             return const GenericErrorView();
           }

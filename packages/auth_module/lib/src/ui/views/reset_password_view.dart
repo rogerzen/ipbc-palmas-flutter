@@ -1,9 +1,7 @@
 import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 
-import '../components/error_dialog_widget.dart';
 import '../components/email_field_widget.dart';
-import '../view_models/password_view_model.dart';
 
 class ResetPasswordView extends StatefulWidget {
   const ResetPasswordView({super.key});
@@ -13,9 +11,11 @@ class ResetPasswordView extends StatefulWidget {
 }
 
 class _ResetPasswordViewState extends State<ResetPasswordView> {
-  final emailcontroller = Modular.get<PasswordViewModel>();
 
   static const String emailMock = "victor@gmail.com";
+
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _resetPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(top: 33),
-                        child: const BackButtonWidget(
-                            route: AuthModule.initialRoute),
+                        child: BackButtonWidget(
+                          action: () => Modular.to.navigate(
+                              AuthModule.initialRoute + AuthModule.authRoute),
+                        ),
                       ),
                     ],
                   ),
@@ -69,25 +71,19 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     margin: const EdgeInsets.only(top: 8, bottom: 8),
                     child: EmailFieldWidget(
                       onChanged: (value) {
-                        setState(() {
-                          emailcontroller.setValueEmail(value);
-                        });
+                        setState(() {});
                       },
                       textLabel: 'Email',
-                      inputTextColor: (emailMock ==
-                              emailcontroller.resetPasswordControllerValue
+                      inputTextColor: (emailMock == _resetPasswordController.text
                           ? AppColors.greenInputAccept
                           : AppColors.delete),
-                      borderSideColor: emailcontroller
-                              .resetPasswordControllerValue.isEmpty
+                      borderSideColor: _resetPasswordController.text.isEmpty
                           ? AppColors.grey8
-                          : (emailMock ==
-                                  emailcontroller.resetPasswordControllerValue
+                          : (emailMock == _resetPasswordController.text
                               ? AppColors.disableButton
                               : AppColors.delete),
-                      controller: emailcontroller.resetPasswordController,
-                      iconPath: emailMock ==
-                              emailcontroller.resetPasswordControllerValue
+                      controller: _resetPasswordController,
+                      iconPath: emailMock == _resetPasswordController.text
                           ? AppIcons.emailSuccess
                           : AppIcons.emailNotValid,
                     ),
@@ -98,16 +94,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     ),
                     child: ElevatedButtonWidget(
                       action: () {
-                        if (emailMock ==
-                            emailcontroller.resetPasswordControllerValue) {
-                          Modular.to.navigate(AuthModule.initialRoute +
-                              AuthModule.verificationCodeRoute);
+                        if (emailMock == _resetPasswordController.text) {
+                          Modular.to.navigate(AuthModule.initialRoute + AuthModule.verificationCodeRoute);
                         } else {
                           //_showErrorDialog();
                           showCustomErrorDialog(
-                            context,
-                            'E-mail inválido!',
-                            'Por favor, verifique seu e-mail e tente novamente.',
+                            context: context,
+                            title: 'E-mail inválido!',
+                            message: 'Por favor, verifique seu e-mail e tente novamente.',
                           );
                         }
                       },
@@ -115,8 +109,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       fixedSize: Size(MediaQuery.of(context).size.width, 48),
-                      backgroundColor: emailMock ==
-                              emailcontroller.resetPasswordControllerValue
+                      backgroundColor: emailMock == _resetPasswordController.text
                           ? AppColors.darkGreen
                           : AppColors.disableButton,
                       shadowColor: AppColors.grey0,

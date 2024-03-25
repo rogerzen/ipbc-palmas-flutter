@@ -25,7 +25,8 @@ export 'src/components/buttons/icon_button_widget.dart';
 export 'src/components/buttons/back_button_widget.dart';
 
 export 'src/components/forms/form_field_widget.dart';
-export 'src/components/forms/default_field_widget.dart';
+export 'src/components/forms/default_form_field_widget.dart';
+export 'src/components/forms/template_form_widget.dart';
 
 export 'src/components/covers/album_cover_widget.dart';
 
@@ -42,6 +43,9 @@ export 'src/components/bottom_bar/mobile_layout/custom_bottom_navigation_bar.dar
 export 'src/components/bottom_bar/mobile_layout/material_bottom_bar_widget.dart';
 export 'src/components/bottom_bar/mobile_layout/navegation_button_widget.dart';
 
+export 'src/components/dialogs/error_dialog_widget.dart';
+export 'src/components/dialogs/success_dialog_widget.dart';
+
 export 'src/components/side_bar/mobile_layout/side_bar_widget.dart';
 
 export 'src/components/top_bar/mobile_layout/main_top_bar_widget.dart';
@@ -50,3 +54,5 @@ export 'src/components/top_bar/mobile_layout/title_top_bar_widget.dart';
 
 export 'src/components/scroll_transform/scroll_transform_item.dart';
 export 'src/components/scroll_transform/scroll_transform_view.dart';
+
+export 'package:flutter_svg/flutter_svg.dart';

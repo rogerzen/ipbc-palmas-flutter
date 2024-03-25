@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:auth_module/src/ui/components/error_dialog_widget.dart';
 import 'package:auth_module/src/ui/components/text_verification_widget.dart';
 import 'package:auth_module/src/ui/components/text_code_widget.dart';
 import 'package:auth_module/src/ui/view_models/password_view_model.dart';
@@ -38,16 +37,16 @@ class _VerificationCodeViewState extends State<VerificationCodeView> {
           );
         } else {
           showCustomErrorDialog(
-            context,
-            'Código Inválido!',
-            'Por favor, verifique o código, e tente novamente.',
+           context: context,
+            title: 'Código Inválido!',
+            message: 'Por favor, verifique o código, e tente novamente.',
           );
         }
       } else {
         showCustomErrorDialog(
-          context,
-          'Código não Preenchidos!',
-          'Por favor, preencha o código de verificação e tente novamente.',
+          context: context,
+          title: 'Código não Preenchidos!',
+          message: 'Por favor, preencha o código de verificação e tente novamente.',
         );
       }
     }
@@ -64,9 +63,11 @@ class _VerificationCodeViewState extends State<VerificationCodeView> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(left: 17, top: 33),
-                      child: const BackButtonWidget(
-                          route: AuthModule.initialRoute +
-                              AuthModule.resetPasswordRoute),
+                      child: BackButtonWidget(
+                        action: () => Modular.to.navigate(
+                          AuthModule.initialRoute + AuthModule.resetPasswordRoute,
+                        ),
+                      ),
                     ),
                   ],
                 ),

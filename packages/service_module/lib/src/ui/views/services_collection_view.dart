@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../blocs/services_collection_bloc.dart';
-import '../../app_module.dart';
-import 'service_view.dart';
 
 class ServicesCollectionView extends StatefulWidget {
   const ServicesCollectionView({Key? key, required this.entity})
@@ -45,7 +43,11 @@ class _ServicesCollectionViewState extends State<ServicesCollectionView> {
               bloc: _bloc,
               builder: (context, state) {
                 if (state is LoadingState<ServicesCollectionState>) {
-                  return const LoadingWidget();
+                  return const LoadingWidget(
+                    androidRadius: 3.5,
+                    iosRadius: 12,
+                    color: AppColors.darkGreen,
+                  );
                 } else if (state is NoConnectionState<ServicesCollectionState>) {
                   return const NoConnectionView(index: 0);
                 } else if (state is DataFetchedState<ServicesCollectionState, ServiceEntity>) {

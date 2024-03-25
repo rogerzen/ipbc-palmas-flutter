@@ -1,12 +1,14 @@
 import 'package:core_module/core_module.dart';
 import 'package:flutter/material.dart';
 
-class SuccessDialogWidget extends StatelessWidget {
+import 'modal_close_button_widget.dart';
+
+class ErrorDialogWidget extends StatelessWidget {
   final String title;
   final String message;
   final Function()? onClose;
 
-  const SuccessDialogWidget({
+  const ErrorDialogWidget({
     super.key,
     required this.title,
     required this.message,
@@ -19,11 +21,11 @@ class SuccessDialogWidget extends StatelessWidget {
       clipBehavior: Clip.none,
       insetPadding: const EdgeInsets.all(3),
       contentPadding: const EdgeInsets.all(20),
-      backgroundColor: AppColors.darkGreen,
+      backgroundColor: AppColors.redModal,
       content: IntrinsicHeight(
         child: Row(
           children: [
-            //const CircleWithX(),
+            const ModalCloseButtonWidget(),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -74,9 +76,9 @@ class SuccessDialogWidget extends StatelessWidget {
   }
 }
 
-Future<void> showCustomSuccessDialog(
-    BuildContext context, String title, String message,
-    {Function()? onClose}) async {
+Future<void> showCustomErrorDialog({
+    required BuildContext context, required String title,required String message,
+    Function()? onClose}) async {
   return showDialog<void>(
     context: context,
     barrierDismissible: true,
@@ -88,7 +90,7 @@ Future<void> showCustomSuccessDialog(
             bottom: 40,
             left: 13,
             right: 13,
-            child: SuccessDialogWidget(
+            child: ErrorDialogWidget(
               title: title,
               message: message,
               onClose: onClose,
